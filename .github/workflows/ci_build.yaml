@@ -31,26 +31,26 @@ jobs:
         with:
           path: scripts/*.zip
           name: ${{ steps.build_step.outputs.artifact_name }}
-    deploy:
-      runs-on: ubuntu-latest
-      needs: build
-      steps:
-        - name: Download artifact
-          uses: actions/download-artifact@v4
-          with:
-            name: ${{ needs.build.outputs.artifact_name }}
-            path: artifacts/
-        - name: Extract artifact
-          run: unzip artifacts/*.zip -d extracted
-        - name: Install Postgresql
-          run: |
-            sudo apt-get update
-            sudo apt-get install -y postgresql-client
-        - name: 'Execute SQL'
-          run: |
-            export PGPASSWORD=demo_gha_2026
-              psql -h "aws-1-eu-central-1.pooler.supabase.com" \
-                -p 5432 \
-                -d postgres \
-                -U postgres.qxqpncxzbiuhsodhgmwk \
-                -f extracted/scripts/dev.sql
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ needs.build.outputs.artifact_name }}
+          path: artifacts/
+      - name: Extract artifact
+        run: unzip artifacts/*.zip -d extracted
+      - name: Install Postgresql
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y postgresql-client
+      - name: 'Execute SQL'
+        run: |
+          export PGPASSWORD=demo_gha_2026
+            psql -h "aws-1-eu-central-1.pooler.supabase.com" \
+              -p 5432 \
+              -d postgres \
+              -U postgres.qxqpncxzbiuhsodhgmwk \
+              -f extracted/scripts/dev.sql
