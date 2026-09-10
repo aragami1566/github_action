@@ -1,1 +1,1 @@
-insert intto table_dev (name) VALUES ('DPH');
+INSERT INTO table_dev (name) VALUES ('DPH');
