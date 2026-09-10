@@ -6,6 +6,7 @@ on:
       TARGET_ENV:
         description: 'Target environment for deployment'
         required: true
+        default: 'prd'
         type: choice
         options:
           - prd
