@@ -1,4 +1,4 @@
-name: 'CI Build'
+name: CI Build
 
 on:
   push:
@@ -8,20 +8,24 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: 'Checkout repository'
+      - name: Checkout repository
         uses: actions/checkout@v4
-      - name: 'Check app version'
+
+      - name: Check app version
         run: echo "App version: $(cat version.txt)"
-      - name: 'Build application'
+
+      - name: Build application
         id: build_step
         run: |
           VERSION=$(cat version.txt)
           ARTIFACT_NAME="artifact_${VERSION}"
           zip -r "scripts/${ARTIFACT_NAME}.zip" scripts/
-          echo "artifact_name=${ARTIFACT_NAME}" >> $GITHUB_OUTPUT
-      - name: 'Upload artifact'
+          echo "artifact_name=${ARTIFACT_NAME}" >> "$GITHUB_OUTPUT"
+
+      - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          path: 'scripts/*.zip'
-          name: '${{ steps.build_step.outputs.artifact_name }}'
+          path: scripts/*.zip
+          name: ${{ steps.build_step.outputs.artifact_name }}
